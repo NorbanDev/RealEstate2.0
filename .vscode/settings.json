@@ -1,0 +1,15 @@
+{
+  "editor.formatOnSave": true,
+  "prettier.tslintIntegration": true,
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+  "react-native-tools.projectRoot": "${workspaceRoot}/packages/app",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "python.formatting.provider": "black",
+
+  "eslint.workingDirectories": ["./web/src"],
+
+  "files.associations": {
+    "**/packages/worker/templates/test/**/*": "plaintext"
+  }
+}
