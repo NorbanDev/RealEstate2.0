@@ -31,7 +31,7 @@ contract HomeTransaction {
         setup = true;
     }
     
-    function buyerSignContractAndPayDeposit() payable public {
+    function buyerSignContractAndPayDeposit() public payable {
         require(!setup, "Realtor needs to set seller and cost first");
         
         require(buyer == address(0), "Contract already has a buyer");
@@ -44,7 +44,7 @@ contract HomeTransaction {
         signed = true;
     }
     
-    function buyerFinalizeTransaction() payable public {
+    function buyerFinalizeTransaction() public payable {
         require(!done, "Cannot finalize already finalized transaction");
         
         require(buyer == msg.sender, "Only buyer can finalize transaction");
@@ -70,7 +70,7 @@ contract HomeTransaction {
         require(!done, "Cannot withdraw already finalized transaction");
         
         require(realtor == msg.sender, "Only realtor can withdraw after transaction deadline");
-        require(deadline <= now, "Realtor cannot withdraw before deadline");
+        require(finazeByTimestamp <= now, "Realtor cannot withdraw before deadline");
 
         seller.transfer(deposit);
         
