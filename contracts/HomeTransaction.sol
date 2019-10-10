@@ -6,74 +6,70 @@ contract HomeTransaction {
     
     // Set at creation
     address public realtor = msg.sender;
+    string public object;
 
     // Set by realtor
-    bool public setup = false;
+    bool public sellerSigned = false;
     address payable public seller;
-    uint public cost;
+    uint public price;
 
     // Set at deposit
-    bool public signed = false;
+    bool public buyerSigned = false;
     address public buyer;
     uint public deposit;
-    uint public finazeByTimestamp;
+    uint public finalizeDeadline;
     
     // Set at finalize
-    bool public done = false;
+    bool public finalized = false;
     
-    function realtorSetupContract(address payable _seller, uint _cost) public {
-        require(msg.sender == realtor, "Only realtor can set seller");
-        require(!setup, "Transaction already set up");
+    constructor(string memory _object) public {
+        object = _object;
+    }
+    
+    function sellerSignContract(uint _price) public {
+        require(!sellerSigned, "Transaction already set up");
+
+        seller = msg.sender;
+        price = _price;
         
-        seller = _seller;
-        cost = _cost;
-        
-        setup = true;
+        sellerSigned = true;
     }
     
     function buyerSignContractAndPayDeposit() public payable {
-        require(!setup, "Realtor needs to set seller and cost first");
+        require(sellerSigned, "Cannot sign transaction before seller");
+        require(!buyerSigned, "Cannot sign already signed transaction");
         
         require(buyer == address(0), "Contract already has a buyer");
-        require(msg.value >= cost/10 && msg.value <= cost, "Buyer needs to deposit between 10% and 100% to sign contract");
+        require(msg.value >= price/10 && msg.value <= price, "Buyer needs to deposit between 10% and 100% to sign contract");
         
         buyer = msg.sender;
         deposit = msg.value;
-        finazeByTimestamp = now + timeBetweenDepositAndFinalization;
+        finalizeDeadline = now + timeBetweenDepositAndFinalization;
         
-        signed = true;
+        buyerSigned = true;
     }
     
     function buyerFinalizeTransaction() public payable {
-        require(!done, "Cannot finalize already finalized transaction");
+        require(buyerSigned, "Cannot finalize non-signed transaction");
+        require(!finalized, "Cannot finalize already finalized transaction");
         
         require(buyer == msg.sender, "Only buyer can finalize transaction");
-        require(msg.value + deposit == cost, "Buyer needs to pay the rest of the cost to finalize transaction");
+        require(msg.value + deposit == price, "Buyer needs to pay the rest of the cost to finalize transaction");
         
+        seller.transfer(price);
         
-        seller.transfer(cost);
-        
-        done = true;
+        finalized = true;
     }
+   
     
-    function buyerWithdrawAndLoseDeposit() public {
-        require(!done, "Cannot withdraw already finalized transaction");
-        
-        require(buyer == msg.sender, "Only buyer can withdraw before transaction deadline");
-        
-        seller.transfer(deposit);
-        
-        done = true;
-    }
-    
-    function realtorWithdrawAfterDeadline() public {
-        require(!done, "Cannot withdraw already finalized transaction");
-        
-        require(realtor == msg.sender, "Only realtor can withdraw after transaction deadline");
-        require(finazeByTimestamp <= now, "Realtor cannot withdraw before deadline");
+    function anyWithdrawFromTransaction() public {
+        require(buyerSigned, "Cannot withdraw from non-signed transaction");
+        require(!finalized, "Cannot withdraw from already finalized transaction");
 
+        require(buyer == msg.sender || finalizeDeadline <= now, "Only buyer can withdraw before transaction deadline");
+        
         seller.transfer(deposit);
         
-        done = true;
+        finalized = true;
     }
 }
