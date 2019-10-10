@@ -1,0 +1,22 @@
+{
+  "name": "norban-hackathon-1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FranklyDev/Norban-Hackathon-1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FranklyDev/Norban-Hackathon-1/issues"
+  },
+  "homepage": "https://github.com/FranklyDev/Norban-Hackathon-1#readme"
+}
