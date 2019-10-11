@@ -29,11 +29,8 @@ const Main = ({ contracts, homeTransactions }) => {
       );
       const loadedObjects = await Promise.all(promises);
       setObjects(loadedObjects);
-      console.dir(loadedObjects);
     })();
   }, [homeTransactions]);
-
-  console.dir(homeTransactions);
 
   return (
     <div className="Main">
@@ -53,7 +50,7 @@ const Main = ({ contracts, homeTransactions }) => {
       <div className="Contracts">
         {contracts &&
           contracts.map((contract, i) => (
-            <Link to={contract} key={contract}>
+            <Link to={`/${i}`} key={i}>
               <div className="Contract">
                 <div className="Contract-content">
                   <div className="Contract-contentTitle">Contract {i}</div>

@@ -18,7 +18,12 @@ const AppRouter = ({ account, contracts, homeTransactions }) => (
           <Main contracts={contracts} homeTransactions={homeTransactions} />
         )}
       />
-      <Route path="/:contractAddr" children={<Contract />} />
+      <Route
+        path="/:index"
+        children={
+          <Contract contracts={contracts} homeTransactions={homeTransactions} />
+        }
+      />
       <Route path="/realtor" component={Realtor} />
       <Route
         path="/seller"
