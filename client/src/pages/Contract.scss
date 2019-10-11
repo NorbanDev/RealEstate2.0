@@ -17,6 +17,12 @@
   font-family: 'Roboto Mono';
   color: #888;
 }
+.Contract-tabs {
+  margin: 8px 0 0 0;
+  a {
+    margin-right: 16px;
+  }
+}
 
 .Timeline {
   margin-top: 24px;
@@ -51,4 +57,5 @@
   z-index: 10;
   top: 0;
   width: 100%;
+  transition: all .5s;
 }
