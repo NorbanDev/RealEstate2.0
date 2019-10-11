@@ -8,27 +8,24 @@ import Bank from "./pages/Bank";
 import Coop from "./pages/Coop";
 import Contract from "./pages/Contract";
 
-const AppRouter = ({ account, contracts, homeTransactions }) => (
+const AppRouter = ({ account, homeTransactions }) => (
   <Router>
     <Switch>
       <Route
         exact
         path="/"
-        render={() => (
-          <Main contracts={contracts} homeTransactions={homeTransactions} />
-        )}
+        render={() => <Main homeTransactions={homeTransactions} />}
       />
       <Route
         path="/:index"
-        children={
-          <Contract contracts={contracts} homeTransactions={homeTransactions} />
-        }
+        render={({
+          match: {
+            params: { index }
+          }
+        }) => <Contract homeTransaction={homeTransactions[index]} />}
       />
       <Route path="/realtor" component={Realtor} />
-      <Route
-        path="/seller"
-        render={() => <Seller account={account} contracts={contracts} />}
-      />
+      <Route path="/seller" render={() => <Seller account={account} />} />
       <Route path="/bank" component={Bank} />
       <Route path="/coop" component={Coop} />
     </Switch>

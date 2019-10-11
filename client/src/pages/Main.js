@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import "./Main.scss";
 import Logo from "../components/Logo";
 import { factory, getAccount } from "../contracts";
+import ReactJson from "react-json-tree-view";
 
-const Main = ({ contracts, homeTransactions }) => {
+const Main = ({ homeTransactions }) => {
   const [object, setObject] = useState("");
   const [objects, setObjects] = useState([]);
   const [price, setPrice] = useState(0);
@@ -49,15 +50,17 @@ const Main = ({ contracts, homeTransactions }) => {
         </button>
       </div>
       <div className="Contracts">
-        {contracts &&
-          contracts.map((contract, i) => (
+        {homeTransactions &&
+          homeTransactions.map((homeTransaction, i) => (
             <Link to={`/${i}`} key={i}>
               <div className="Contract">
                 <div className="Contract-content">
                   <div className="Contract-contentTitle">Contract {i}</div>
                   <span className="Contract-contentObject">{objects[i]}</span>
                 </div>
-                <span className="Contract-addr">{contract}</span>
+                <span className="Contract-addr">
+                  <ReactJson src={homeTransaction} />
+                </span>
               </div>
             </Link>
           ))}

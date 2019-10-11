@@ -11,6 +11,7 @@
     "test": "truffle test"
   },
   "dependencies": {
+    "react-json-tree-view": "^1.0.8",
     "truffle": "^5.0.40"
   },
   "repository": {
