@@ -5,108 +5,115 @@ contract HomeTransaction {
     uint constant timeBetweenDepositAndFinalization = 5 minutes;
     uint constant depositPercentage = 10;
 
-    // Set at creation
-    address public realtor;
-    address public factory;
+    enum ContractState {
+        WaitingSellerSignature,
+        WaitingBuyerSignature,
+        WaitingRealtorReview,
+        WaitingFinalization,
+        Finalized,
+        Rejected }
+    ContractState public contractState = ContractState.WaitingSellerSignature;
+
+    
+    // Roles acting on contract
+    address payable public realtor;
+    address payable public seller;
+    address payable public buyer;
+
+    // Contract details
     string public homeAddress;
     string public zip;
     string public city;
-
-    // Set by realtor
-    bool public sellerSigned = false;
-    address payable public seller;
+    uint public realtorFee;
     uint public price;
 
-    // Set at deposit
-    bool public buyerSigned = false;
-    address public buyer;
+    // Set when buyer signs and pays deposit
     uint public deposit;
     uint public finalizeDeadline;
 
-    // Set at finalize
-    bool public finalized = false;
+    // Set when realtor reviews closing conditions
+    enum ClosingConditionsReview { Pending, Accepted, Rejected }
+    ClosingConditionsReview closingConditionsReview = ClosingConditionsReview.Pending;
 
-    constructor(string memory _address, string memory _zip, string memory _city, uint _price, address _seller) public {
-        realtor = _seller;
-        factory = msg.sender;
+    constructor(
+        string memory _address,
+        string memory _zip,
+        string memory _city,
+        uint _price,
+        uint _realtorFee,
+        address payable _realtor,
+        address payable _seller,
+        address payable _buyer) public {
+        require(_price >= _realtorFee, "Price needs to be more than realtor fee!");
+
+        realtor = _realtor;
+        seller = _seller;
+        buyer = _buyer;
         homeAddress = _address;
         zip = _zip;
         city = _city;
         price = _price;
+        realtorFee = _realtorFee;
     }
 
-    function sellerSignContract() public {
-        require(!sellerSigned, "Transaction already set up");
+    function sellerSignContract() public payable {
+        require(seller == msg.sender, "Only seller can sign contract");
 
-        assert(realtor != address(0));
-        assert(!sellerSigned);
-        assert(seller == address(0));
-        assert(!buyerSigned);
-        assert(buyer == address(0));
-        assert(deposit == 0);
-        assert(finalizeDeadline == 0);
+        require(contractState == ContractState.WaitingSellerSignature, "Seller cannot sign already signed contract");
 
-        sellerSigned = true;
-
-        seller = msg.sender;
+        contractState = ContractState.WaitingBuyerSignature;
     }
 
     function buyerSignContractAndPayDeposit() public payable {
-        require(sellerSigned, "Cannot sign transaction before seller");
-        require(!buyerSigned, "Cannot sign already signed transaction");
+        require(buyer == msg.sender, "Only buyer can sign contract");
 
-        require(buyer == address(0), "Contract already has a buyer");
+        require(contractState == ContractState.WaitingBuyerSignature, "Buyer cannot sign contract");
+    
         require(msg.value >= price*depositPercentage/100 && msg.value <= price, "Buyer needs to deposit between 10% and 100% to sign contract");
 
-        assert(realtor != address(0));
-        assert(sellerSigned);
-        assert(seller != address(0));
-        assert(!buyerSigned);
-        assert(buyer == address(0));
-        assert(deposit == 0);
-        assert(finalizeDeadline == 0);
+        contractState = ContractState.WaitingRealtorReview;
 
-        buyerSigned = true;
-
-        buyer = msg.sender;
         deposit = msg.value;
         finalizeDeadline = now + timeBetweenDepositAndFinalization;
     }
 
-    function buyerFinalizeTransaction() public payable {
-        require(buyerSigned, "Cannot finalize non-signed transaction");
-        require(!finalized, "Cannot finalize already finalized transaction");
+    function realtorReviewedClosingConditions(bool accepted) public {
+        require(realtor == msg.sender, "Only realtor can review closing conditions");
 
+        require(contractState == ContractState.WaitingRealtorReview, "Cannot review closing conditions before signatures");
+        
+        if (accepted) {
+            closingConditionsReview = ClosingConditionsReview.Accepted;
+            contractState = ContractState.WaitingFinalization;
+        } else {
+            closingConditionsReview = ClosingConditionsReview.Rejected;
+            contractState = ContractState.Rejected;
+            
+            buyer.transfer(deposit);
+        }
+    }
+
+    function buyerFinalizeTransaction() public payable {
         require(buyer == msg.sender, "Only buyer can finalize transaction");
+
+        require(contractState == ContractState.WaitingFinalization, "Buyer cannot finalize non-reviewed contract");
+
         require(msg.value + deposit == price, "Buyer needs to pay the rest of the cost to finalize transaction");
 
-        assert(realtor != address(0));
-        assert(sellerSigned);
-        assert(seller != address(0));
-        assert(buyerSigned);
-        assert(buyer != address(0));
-        assert(finalizeDeadline != 0);
+        contractState = ContractState.Finalized;
 
-        finalized = true;
-
-        seller.transfer(price);
+        seller.transfer(price-realtorFee);
+        realtor.transfer(realtorFee);
     }
 
     function anyWithdrawFromTransaction() public {
-        require(buyerSigned, "Cannot withdraw from non-signed transaction");
-        require(!finalized, "Cannot withdraw from already finalized transaction");
-
         require(buyer == msg.sender || finalizeDeadline <= now, "Only buyer can withdraw before transaction deadline");
 
-        assert(realtor != address(0));
-        assert(sellerSigned);
-        assert(seller != address(0));
-        assert(buyerSigned);
-        assert(buyer != address(0));
-        assert(finalizeDeadline != 0);
+        require(contractState == ContractState.WaitingFinalization, "Buyer cannot withdraw from non-signed contract");
 
-        finalized = true;
+        contractState = ContractState.Rejected;
 
-        seller.transfer(deposit);
+        seller.transfer(deposit-realtorFee);
+        realtor.transfer(realtorFee);
     }
 }

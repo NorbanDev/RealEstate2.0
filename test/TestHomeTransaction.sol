@@ -13,7 +13,15 @@ contract TestHomeTransaction {
 
   function testNormalFlow() public {
     Factory f = new Factory();
-    HomeTransaction t = f.create(testAddress, testZip, testCity, 100 wei);
+    HomeTransaction t = f.create(
+      testAddress,
+      testZip,
+      testCity,
+      100 wei,
+      5 wei,
+      address(this),
+      address(this),
+      address(this));
     Assert.equal(f.getInstanceCount(), 1, "Expected factory to contain 1 contract");
     Assert.equal(t.homeAddress(), testAddress, "Wrong address");
     Assert.equal(t.zip(), testZip, "Wrong zip");
@@ -22,8 +30,9 @@ contract TestHomeTransaction {
     Assert.equal(t.seller(), address(this), "Wrong seller");
     t.buyerSignContractAndPayDeposit.value(10 wei)();
     Assert.equal(t.buyer(), address(this), "Wrong buyer");
+    t.realtorReviewedClosingConditions(true);
     t.buyerFinalizeTransaction.value(90 wei)();
-    Assert.equal(t.finalized(), true, "Failed to finalize");
+    Assert.equal(true, t.contractState() == HomeTransaction.ContractState.Finalized, "Failed to finalize");
   }
 
   // this new function IS REQUIRED for the test to work
