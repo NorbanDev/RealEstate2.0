@@ -12,7 +12,9 @@ const Main = ({ contracts, homeTransactions }) => {
 
   const createContract = async () => {
     const from = await getAccount();
-    factory.methods.create(home.address, home.zip, home.city).send({ from });
+    factory.methods
+      .create(home.address, home.zip, home.city, price)
+      .send({ from });
   };
 
   useEffect(() => {
@@ -38,19 +40,19 @@ const Main = ({ contracts, homeTransactions }) => {
           <input
             className="Contract-formInput"
             placeholder="Address"
-            onChange={e => setHome({ address: e.target.value })}
+            onChange={e => setHome({ ...home, address: e.target.value })}
             value={home.address}
           />
           <input
             className="Contract-formInput"
             placeholder="Zip"
-            onChange={e => setHome({ zip: e.target.value })}
+            onChange={e => setHome({ ...home, zip: e.target.value })}
             value={home.zip}
           />
           <input
             className="Contract-formInput"
             placeholder="City"
-            onChange={e => setHome({ city: e.target.value })}
+            onChange={e => setHome({ ...home, city: e.target.value })}
             value={home.city}
           />
           <input
@@ -60,7 +62,6 @@ const Main = ({ contracts, homeTransactions }) => {
             value={price}
           />
         </div>
-        <p>{home.address}</p>
         <button className="Contract-createBtn" onClick={() => createContract()}>
           Create contract
         </button>
