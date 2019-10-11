@@ -98,7 +98,9 @@ export default function Contract({ homeTransaction }) {
         <div className="ProgressBar-container">
           <div className="ProgressBar-background"></div>
           <div
-            className="ProgressBar-progress"
+            className={cx('ProgressBar-progress', {
+              reject: contractState === 5,
+            })}
             style={{ width: `${progress}%` }}
           ></div>
         </div>
