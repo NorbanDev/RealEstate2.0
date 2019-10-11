@@ -68,6 +68,9 @@ const Main = () => {
         <li>
           <Link to="/bank">Buyer's Bank</Link>
         </li>
+        <li>
+          <Link to="/coop">Co-op</Link>
+        </li>
       </ul>
     </div>
   );

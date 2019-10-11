@@ -5,7 +5,6 @@ import Web3 from "web3";
 
 import "./App.css";
 import AppRouter from "./AppRouter.js";
-import getWeb3 from "./utils/getWeb3.js";
 
 const App = () => {
   const [contracts, setContracts] = useState([]);
@@ -28,6 +27,13 @@ const App = () => {
         console.error("FAIL");
       }
       const accounts = await web3.eth.getAccounts();
+<<<<<<< HEAD
+=======
+      const contract = new web3.eth.Contract(
+        HomeTransaction.abi,
+        "0x5af4dae68b0b28912da9955b3aa67246946bd9e7"
+      );
+>>>>>>> e6ae3bbf8eb9e76650786cdbe1c3c89fa07d9635
 
       const factory = new web3.eth.Contract(
         Factory.abi,
@@ -44,8 +50,6 @@ const App = () => {
   }, []);
 
   const { accounts, contract } = state;
-
-  console.dir(accounts);
 
   return <AppRouter account={accounts && accounts[0]} contract={contract} />;
 };
