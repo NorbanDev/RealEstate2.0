@@ -3,6 +3,7 @@ import { Switch, Route, Link, useParams } from "react-router-dom";
 import cx from "classnames";
 import "./Contract.scss";
 import JSONTree from "react-json-tree";
+import Seller from "../components/Seller";
 import Buyer from "../components/Buyer";
 
 const timeline = [
@@ -49,7 +50,6 @@ export default function Contract({ homeTransaction }) {
         <span className="ContractPage-addr">
           {homeTransaction && homeTransaction.options.address}
         </span>
-
         <Route
           exact
           path="/:addr"
@@ -66,6 +66,15 @@ export default function Contract({ homeTransaction }) {
             <Buyer
               homeTransaction={homeTransaction}
               buyerSigned={contractState.buyerSigned}
+            />
+          )}
+        />
+        <Route
+          path="/:addr/seller"
+          render={() => (
+            <Seller
+              sellerSigned={contractState.sellerSigned}
+              instance={homeTransaction}
             />
           )}
         />
