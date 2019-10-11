@@ -42,27 +42,7 @@ const App = () => {
 
   console.dir(accounts);
 
-  return (
-    <AppRouter account={accounts && accounts[0]} contract={contract} />
-    // <div className="App">
-    //   <h1>Norban Hackathon</h1>
-    //   <p>Agreement, Smart Contract</p>
-    //   <button
-    //     onClick={async () => {
-    //       const { contract } = state;
-    //       const buyer = await contract.methods.buyer().call();
-    //       const object = await contract.methods.object().call();
-    //       const price = await contract.methods.price().call();
-    //       setState({ buyer, object, price });
-    //     }}
-    //   >
-    //     Get details
-    //   </button>
-    //   <p>buyer: {state.buyer != null ? state.buyer : "Not set"}</p>
-    //   <p>object: {state.object != null ? state.object : "Not set"}</p>
-    //   <p>price: {state.price != null ? state.price : "Not set"}</p>
-    // </div>
-  );
+  return <AppRouter account={accounts && accounts[0]} contract={contract} />;
 };
 
 export default App;

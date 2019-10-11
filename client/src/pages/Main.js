@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./Main.css";
+import Logo from "../components/Logo";
 
 const Main = () => (
   <div className="Main">
+    <Logo />
     <h1>Main view</h1>{" "}
     <ul>
       <li>
@@ -13,7 +15,7 @@ const Main = () => (
         <Link to="/seller">Seller</Link>
       </li>
       <li>
-        <Link to="/bank">Bank</Link>
+        <Link to="/bank">Buyer's Bank</Link>
       </li>
     </ul>
   </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Seller.css";
+import Logo from "../components/Logo";
 
 const Seller = ({ account, contract }) => {
   const [state, setState] = useState({ price: null });
@@ -13,6 +14,7 @@ const Seller = ({ account, contract }) => {
   }, [contract]);
   return (
     <div className="Seller">
+      <Logo />
       <Link to="/">← Back</Link>
       <h1>Seller view</h1>
       <button
