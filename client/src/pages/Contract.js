@@ -5,6 +5,7 @@ import "./Contract.scss";
 import JSONTree from "react-json-tree";
 import Seller from "../components/Seller";
 import Buyer from "../components/Buyer";
+import Coop from "../components/Coop";
 
 const timeline = [
   { text: "Contract created" },
@@ -51,6 +52,7 @@ export default function Contract({ homeTransaction }) {
             <div className="Contract-tabs">
               <Link to={`/${index}/buyer`}>Buyer</Link>
               <Link to={`/${index}/seller`}>Seller</Link>
+              <Link to={`/${index}/coop`}>Co-op</Link>
             </div>
           )}
         />
@@ -66,10 +68,13 @@ export default function Contract({ homeTransaction }) {
         <Route
           path="/:addr/seller"
           render={() => (
-            <Seller
-              contractState={contractState}
-              instance={homeTransaction}
-            />
+            <Seller contractState={contractState} instance={homeTransaction} />
+          )}
+        />
+        <Route
+          path="/:addr/coop"
+          render={() => (
+            <Coop contractState={contractState} instance={homeTransaction} />
           )}
         />
         <div className="Timeline">
