@@ -26,13 +26,20 @@ const HomeTransaction = ({ homeTransaction, index }) => {
 };
 
 const Main = ({ contracts, homeTransactions }) => {
-  const [home, setHome] = useState({});
-  const [price, setPrice] = useState(null);
+  const [form, setForm] = useState({});
 
   const createContract = async () => {
     const from = await getAccount();
     factory.methods
-      .create(home.address, home.zip, home.city, price)
+      .create(
+        form.address,
+        form.zip,
+        form.city,
+        form.price,
+        form.realtorFee,
+        form.seller,
+        form.buyer
+      )
       .send({ from });
   };
 
@@ -46,26 +53,44 @@ const Main = ({ contracts, homeTransactions }) => {
           <input
             className="Contract-formInput"
             placeholder="Address"
-            onChange={e => setHome({ ...home, address: e.target.value })}
-            value={home.address}
+            onChange={e => setForm({ ...form, address: e.target.value })}
+            value={form.address}
           />
           <input
             className="Contract-formInput"
             placeholder="Zip"
-            onChange={e => setHome({ ...home, zip: e.target.value })}
-            value={home.zip}
+            onChange={e => setForm({ ...form, zip: e.target.value })}
+            value={form.zip}
           />
           <input
             className="Contract-formInput"
             placeholder="City"
-            onChange={e => setHome({ ...home, city: e.target.value })}
-            value={home.city}
+            onChange={e => setForm({ ...form, city: e.target.value })}
+            value={form.city}
           />
           <input
             className="Contract-formInput"
             placeholder="Price"
-            onChange={e => setPrice(e.target.value)}
-            value={price}
+            onChange={e => setForm({ ...form, price: e.target.value })}
+            value={form.price}
+          />
+          <input
+            className="Contract-formInput"
+            placeholder="Realtor fee"
+            onChange={e => setForm({ ...form, realtorFee: e.target.value })}
+            value={form.realtorFee}
+          />
+          <input
+            className="Contract-formInput"
+            placeholder="Seller address"
+            onChange={e => setForm({ ...form, seller: e.target.value })}
+            value={form.seller}
+          />
+          <input
+            className="Contract-formInput"
+            placeholder="Buyer address"
+            onChange={e => setForm({ ...form, buyer: e.target.value })}
+            value={form.buyer}
           />
         </div>
         <Button className="Contract-createBtn" onClick={() => createContract()}>
