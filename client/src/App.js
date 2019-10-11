@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import AppRouter from "./AppRouter.js";
-import { web3, factory, getAccount } from "./contracts";
-import HomeTransaction from "./contracts/HomeTransaction";
+import { getAccount, getHomeTransactions } from "./contracts";
 
 import "./App.css";
 
@@ -22,14 +21,9 @@ const App = () => {
       }
 
       const account = await getAccount();
-      const contracts = await factory.methods.getInstances().call();
+      const homeTransactions = await getHomeTransactions();
 
-      setState({ account, contracts });
-      const homeTransactions = contracts.map(
-        contract => new web3.eth.Contract(HomeTransaction.abi, contract)
-      );
-
-      setState({ homeTransactions, account, contracts });
+      setState({ homeTransactions, account });
     };
 
     exec();

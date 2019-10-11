@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
 import Logo from "../components/Logo";
-import { factory, web3 } from "../contracts";
+import { factory, getAccount } from "../contracts";
 
 const Main = ({ contracts, homeTransactions }) => {
   const [object, setObject] = useState("");
@@ -10,8 +10,8 @@ const Main = ({ contracts, homeTransactions }) => {
   const [price, setPrice] = useState(0);
 
   const createContract = async () => {
-    const accounts = await web3.eth.getAccounts();
-    factory.methods.create(object, price).send({ from: accounts[0] });
+    const from = await getAccount();
+    factory.methods.create(object, price).send({ from });
   };
 
   useEffect(() => {
