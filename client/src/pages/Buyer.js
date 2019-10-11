@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Bank.css";
+import "./Buyer.css";
 import Logo from "../components/Logo";
 
-const Bank = () => (
-  <div className="Bank">
+const Buyer = () => (
+  <div className="Buyer">
     <Logo />
     <Link to="/">← Back</Link>
     <h1>Buyer's Bank view</h1>
@@ -13,4 +13,4 @@ const Bank = () => (
   </div>
 );
 
-export default Bank;
+export default Buyer;
