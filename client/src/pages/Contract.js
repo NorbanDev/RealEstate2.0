@@ -32,7 +32,7 @@ export default function Contract({ homeTransaction }) {
     (async () => {
       if (homeTransaction) {
         const res = await homeTransaction.methods.contractState().call();
-        setContractState(res);
+        setContractState(parseInt(res, 10));
       }
     })();
   }, [homeTransaction]);
