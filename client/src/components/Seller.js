@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Seller.scss';
 import { getAccount } from '../contracts';
 
 export default function Seller({ sellerSigned, instance }) {
+  const [signed, setState] = useState(sellerSigned);
+
   const sellerSignContract = async () => {
     const account = await getAccount();
     instance.methods.sellerSignContract().send({ from: account });
@@ -10,8 +12,13 @@ export default function Seller({ sellerSigned, instance }) {
 
   return (
     <div className="Seller">
-      <div>.:Seller:.</div>
-      <button onClick={() => sellerSignContract()}>Sign contract</button>
+      {(signed) ? (
+        <>
+          <button onClick={() => sellerSignContract()}>Sign contract</button>
+        </>
+      ) : (
+        <span>Signed, nothing else to do. ✨</span>
+      )}
     </div>
   );
 }
