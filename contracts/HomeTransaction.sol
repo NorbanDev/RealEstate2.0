@@ -39,8 +39,8 @@ contract HomeTransaction {
         string memory _address,
         string memory _zip,
         string memory _city,
-        uint _price,
         uint _realtorFee,
+        uint _price,
         address payable _realtor,
         address payable _seller,
         address payable _buyer) public {

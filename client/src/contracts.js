@@ -6,7 +6,7 @@ const web3 = new Web3(window.ethereum);
 
 export const factory = new web3.eth.Contract(
   Factory.abi,
-  "0x52bc4f7ad78dab3efc557738282573cf63be064f"
+  "0x87b46ab07404b23078f30ac14e960f2c29160622"
 );
 
 export const getAccount = async () => (await web3.eth.getAccounts())[0];
