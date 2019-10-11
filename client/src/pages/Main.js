@@ -1,32 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
 import Logo from "../components/Logo";
 import { factory, getAccount } from "../contracts";
 import JSONTree from "react-json-tree";
 
+const HomeTransaction = ({ homeTransaction, index }) => {
+  return (
+    <Link to={`/${index}`} key={index}>
+      <div className="Contract">
+        <div className="Contract-content">
+          <div className="Contract-contentTitle">{`Contract #${index}`}</div>
+          <span className="Contract-contentObject">
+            {homeTransaction.options.address}
+          </span>
+        </div>
+        <span className="Contract-addr">
+          {homeTransaction.options.address}
+          <JSONTree data={homeTransaction} />
+        </span>
+      </div>
+    </Link>
+  );
+};
+
 const Main = ({ contracts, homeTransactions }) => {
   const [home, setHome] = useState({});
-  const [objects, setObjects] = useState("");
   const [price, setPrice] = useState(null);
 
   const createContract = async () => {
     const from = await getAccount();
     factory.methods.create(home.address, home.zip, home.city).send({ from });
   };
-
-  useEffect(() => {
-    if (!homeTransactions) {
-      return;
-    }
-    (async () => {
-      setObjects(
-        await Promise.all(
-          homeTransactions.map(homeTransaction => "TODO: replace me!")
-        )
-      );
-    })();
-  }, [homeTransactions]);
 
   return (
     <div className="Main">
@@ -67,19 +72,8 @@ const Main = ({ contracts, homeTransactions }) => {
       </div>
       <div className="Contracts">
         {homeTransactions &&
-          homeTransactions.map((homeTransaction, i) => (
-            <Link to={`/${i}`} key={i}>
-              <div className="Contract">
-                <div className="Contract-content">
-                  <div className="Contract-contentTitle">Contract {i}</div>
-                  <span className="Contract-contentObject">{objects[i]}</span>
-                </div>
-                <span className="Contract-addr">
-                  {homeTransaction.options.address}
-                  <JSONTree data={homeTransaction} />
-                </span>
-              </div>
-            </Link>
+          homeTransactions.map((homeTransaction, index) => (
+            <HomeTransaction homeTransaction={homeTransaction} index={index} />
           ))}
       </div>
     </div>
