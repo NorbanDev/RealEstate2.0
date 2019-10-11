@@ -7,10 +7,9 @@ import AppRouter from "./AppRouter.js";
 import "./App.css";
 
 const App = () => {
-  const [contracts, setContracts] = useState([]);
   const [state, setState] = useState({
     accounts: null,
-    contract: null,
+    contracts: null,
     buyer: null,
     price: null,
     deposit: null,
@@ -31,22 +30,17 @@ const App = () => {
         Factory.abi,
         "0x2F312Dd912407C11AAb7488e261afd8fAEeE23EF"
       );
-      factory.methods
-        .getInstances()
-        .call()
-        .then(res => {
-          setContracts(res);
-        });
+      const contracts = await factory.methods.getInstances().call();
 
-      setState({ accounts, contract });
+      setState({ factory, accounts, contracts });
     };
 
     exec();
   }, []);
 
-  const { accounts, contract } = state;
+  const { accounts, contracts } = state;
 
-  return <AppRouter account={accounts && accounts[0]} contract={contract} />;
+  return <AppRouter account={accounts && accounts[0]} contracts={contracts} />;
 };
 
 export default App;

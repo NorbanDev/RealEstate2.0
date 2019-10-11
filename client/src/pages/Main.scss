@@ -1,15 +1,11 @@
 .Main {
   margin: 32px 40px;
 }
-.Main h1 {
+.Main-title {
   font-weight: 700;
 }
 .Contracts {
   display: flex;
-  /* display: inline-block;
-  border-radius: 8px;
-  padding: 16px;
-  border: 1px solid #888; */
 }
 .Contract-createBtn {
   font-size: 13px;
@@ -39,10 +35,10 @@
   background-color: white;
   border-radius: 8px;
   word-break: break-all;
-  transition: all .3s;
+  transition: all 0.3s;
   &:hover {
     background-color: #222;
-    color: white!important;
+    color: white !important;
     .Contract-addr {
       color: white;
     }
@@ -58,7 +54,7 @@
 }
 .Contract-addr {
   flex: 0 0;
-  font-family: 'Roboto Mono';
+  font-family: "Roboto Mono";
   color: #333;
   font-weight: 500;
   font-size: 13px;
