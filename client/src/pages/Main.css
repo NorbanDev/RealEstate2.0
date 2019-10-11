@@ -1,26 +1,60 @@
-<<<<<<< HEAD
 .Main {
-  margin: 20px;
+  margin: 32px 40px;
+}
+.Main h1 {
+  font-weight: 700;
 }
 .Contracts {
-  display: inline-block;
+  display: flex;
+  /* display: inline-block;
   border-radius: 8px;
   padding: 16px;
-  border: 1px solid #888;
+  border: 1px solid #888; */
 }
 .Contract-createBtn {
+  font-size: 13px;
+  background-color: #e7b558;
+  border: 0;
+  padding: 8px 20px;
+  border-radius: 30px;
+  font-weight: bold;
   margin-left: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
+  cursor: pointer;
 }
 .Contract-input {
+  font-size: 13px;
+  border: 0;
+  padding: 8px 12px;
+  outline: 0;
+  border-radius: 8px;
 }
-.Contract span {
-  font-size: 16px;
-  font-weight: 700;
-  margin-right: 8px;
+.Contract {
+  display: flex;
+  flex-direction: column;
+  height: 240px;
+  width: 180px;
+  padding: 20px;
+  margin-right: 16px;
+  background-color: white;
+  border-radius: 8px;
+  word-break: break-all;
 }
-||||||| merged common ancestors
-=======
+.Contract-content {
+  flex-grow: 1;
+}
+.Contract-content div {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+.Contract-addr {
+  flex: 0 0;
+  font-family: 'Roboto Mono';
+  color: #333;
+  font-weight: 500;
+  font-size: 13px;
+}
 .Main--container {
   height: 100%;
   flex: 1;
@@ -29,7 +63,6 @@
   align-items: center;
   justify-content: center;
 }
-
 .Main--buttonContainer {
   flex: 1;
   display: flex;
@@ -37,4 +70,3 @@
   align-items: center;
   justify-content: center;
 }
->>>>>>> Add sematic UI

@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-<<<<<<< HEAD
 import Web3 from "web3";
 import Factory from "../contracts/Factory.json";
 import "./Main.css";
 import Logo from "../components/Logo";
-||||||| merged common ancestors
-=======
-import { Button } from "semantic-ui-react";
+// import { Button } from "semantic-ui-react";
 
-import "./Main.css";
->>>>>>> Add sematic UI
-
-<<<<<<< HEAD
 const Main = () => {
   const [contracts, setContracts] = useState([]);
   const [object, setObject] = useState('');
@@ -48,8 +41,8 @@ const Main = () => {
   return (
     <div className="Main">
       <Logo />
-      <h1>Main view</h1>{" "}
-      <div className="Contracts">
+      <h1>Contracts</h1>{" "}
+      <div>
         <input
           className="Contract-input" placeholder="Object description"
           onChange={e => setObject(e.target.value)}
@@ -59,14 +52,21 @@ const Main = () => {
           className="Contract-createBtn"
           onClick={() => createContract()}
         >Create contract</button>
-        {contracts.map((contract) => (
-          <div className="Contract">
-            <span>Contract</span>
-            <a href="#">{contract}</a>
-          </div>
+      </div>
+      <div className="Contracts">
+        {contracts.map((contract, i) => (
+          <Link>
+            <div className="Contract">
+              <div className="Contract-content">
+                <div>Contract {i}</div>
+                <span>Contract description</span>
+              </div>
+              <span className="Contract-addr">{contract}</span>
+            </div>
+          </Link>
         ))}
       </div>
-      <ul>
+      {/* <ul>
         <li>
           <Link to="/realtor">Realtor</Link>
         </li>
@@ -79,44 +79,9 @@ const Main = () => {
         <li>
           <Link to="/coop">Co-op</Link>
         </li>
-      </ul>
+      </ul> */}
     </div>
   );
 };
-||||||| merged common ancestors
-const Main = () => (
-  <>
-    <h1>Main view</h1>{" "}
-    <ul>
-      <li>
-        <Link to="/realtor">Realtor</Link>
-      </li>
-      <li>
-        <Link to="/seller">Seller</Link>
-      </li>
-      <li>
-        <Link to="/bank">Bank</Link>
-      </li>
-    </ul>
-  </>
-);
-=======
-const Main = () => (
-  <div className="Main--container">
-    <h1>Choose a role</h1>
-    <div className="Main--cuttonContainer">
-      <Button>
-        <Link to="/realtor">Realtor</Link>
-      </Button>
-      <Button>
-        <Link to="/seller">Seller</Link>
-      </Button>
-      <Button>
-        <Link to="/bank">Bank</Link>
-      </Button>
-    </div>
-  </div>
-);
->>>>>>> Add sematic UI
 
 export default Main;
