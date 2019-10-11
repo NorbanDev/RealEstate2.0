@@ -8,7 +8,7 @@ import ReactJson from "react-json-tree-view";
 const Main = ({ contracts, homeTransactions }) => {
   const [home, setHome] = useState({});
   const [objects, setObjects] = useState("");
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(null);
 
   const createContract = async () => {
     const from = await getAccount();
@@ -75,7 +75,7 @@ const Main = ({ contracts, homeTransactions }) => {
                   <span className="Contract-contentObject">{objects[i]}</span>
                 </div>
                 <span className="Contract-addr">
-                  <ReactJson src={homeTransaction} />
+                  {homeTransaction.options.address}
                 </span>
               </div>
             </Link>
