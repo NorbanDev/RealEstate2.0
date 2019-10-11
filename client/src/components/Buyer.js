@@ -23,7 +23,7 @@ const Buyer = ({ homeTransaction, contractState }) => {
   return (
     <div className="Buyer">
       {contractState == null && <p>Loading...</p>}
-      {contractState != null && contractState <= 1 && (
+      {contractState != null && contractState === 1 && (
         <>
           <p>Sign contract and pay deposit</p>
           <div>

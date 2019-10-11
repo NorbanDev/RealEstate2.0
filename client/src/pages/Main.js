@@ -16,10 +16,7 @@ const HomeTransaction = ({ homeTransaction, index }) => {
             {homeTransaction.options.address}
           </span>
         </div>
-        <span className="Contract-addr">
-          {homeTransaction.options.address}
-          <JSONTree data={homeTransaction} />
-        </span>
+        <span className="Contract-addr">{homeTransaction.options.address}</span>
       </div>
     </Link>
   );
