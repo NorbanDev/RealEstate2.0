@@ -20,6 +20,10 @@ const Buyer = ({ homeTransaction, contractState }) => {
       .buyerSignContractAndPayDeposit()
       .send({ from, value: pricing.deposit });
   };
+  const finalize = async () => {
+    const from = await getAccount();
+    homeTransaction.methods.buyerFinalizeTransaction().send({ from });
+  };
   return (
     <div className="Buyer">
       {contractState == null && <p>Loading...</p>}
@@ -29,6 +33,16 @@ const Buyer = ({ homeTransaction, contractState }) => {
           <div>
             <Button className="Buyer-signBtn" onClick={() => sign()}>
               Sign
+            </Button>
+          </div>
+        </>
+      )}
+      {contractState != null && contractState === 3 && (
+        <>
+          <p>Finalize</p>
+          <div>
+            <Button className="Buyer-signBtn" onClick={() => finalize()}>
+              Finalize
             </Button>
           </div>
         </>
