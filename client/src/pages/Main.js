@@ -8,7 +8,7 @@ import ReactJson from "react-json-tree-view";
 const Main = ({ homeTransactions }) => {
   const [object, setObject] = useState("");
   const [objects, setObjects] = useState([]);
-  const [price, setPrice] = useState(0);
+  const [price, setPrice] = useState(null);
 
   const createContract = async () => {
     const from = await getAccount();
