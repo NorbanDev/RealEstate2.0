@@ -17,6 +17,23 @@
   font-family: 'Roboto Mono';
   color: #888;
 }
+
+.Timeline {
+  margin-top: 24px;
+}
+.Timeline-point {
+  margin-left: 16px;
+  margin-bottom: 6px;
+  color: #888;
+  &.in-progress {
+    color: #e7b558;
+  }
+  &.done {
+    color: #27C200;
+  }
+}
+
+
 .ProgressBar-container {
   margin-top: 16px;
   position: relative;
