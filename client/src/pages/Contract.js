@@ -18,7 +18,7 @@ const timeline = [
 export default function Contract({ homeTransaction }) {
   const { index } = useParams();
   const [progress, setProgress] = useState(10);
-  const [contractState, setContractState] = useState({});
+  const [contractState, setContractState] = useState(null);
   const [timelineProgress, setTimelineProgress] = useState(1);
 
   const updateProgress = index => {
@@ -31,14 +31,8 @@ export default function Contract({ homeTransaction }) {
   useEffect(() => {
     (async () => {
       if (homeTransaction) {
-        const sellerSigned = await homeTransaction.methods
-          .sellerSigned()
-          .call();
-        const buyerSigned = await homeTransaction.methods.buyerSigned().call();
-        const finalized = await homeTransaction.methods.finalized().call();
-
-        console.log(sellerSigned, buyerSigned, finalized);
-        setContractState({ sellerSigned, buyerSigned, finalized });
+        const res = await homeTransaction.methods.contractState().call();
+        setContractState(res);
       }
     })();
   }, [homeTransaction]);
@@ -65,7 +59,7 @@ export default function Contract({ homeTransaction }) {
           render={() => (
             <Buyer
               homeTransaction={homeTransaction}
-              buyerSigned={contractState.buyerSigned}
+              contractState={contractState}
             />
           )}
         />
@@ -73,7 +67,7 @@ export default function Contract({ homeTransaction }) {
           path="/:addr/seller"
           render={() => (
             <Seller
-              sellerSigned={contractState.sellerSigned}
+              contractState={contractState}
               instance={homeTransaction}
             />
           )}
