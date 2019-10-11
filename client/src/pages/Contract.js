@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import cx from "classnames";
 import "./Contract.scss";
+import JSONTree from "react-json-tree";
 
 const timeline = [
   { text: "Contract created" },
@@ -15,6 +16,7 @@ export default function Contract({ homeTransaction }) {
   const [progress /*, setProgress*/] = useState(50);
   // const homeTransaction = homeTransactions[index];
   const [timelineProgress /*, setTimelineProgress*/] = useState(1);
+  return <JSONTree data={homeTransaction} />;
 
   return (
     <div className="ContractPage">

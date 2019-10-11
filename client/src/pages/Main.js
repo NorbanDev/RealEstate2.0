@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Main.scss";
 import Logo from "../components/Logo";
 import { factory, getAccount } from "../contracts";
-import ReactJson from "react-json-tree-view";
+import JSONTree from "react-json-tree";
 
 const Main = ({ contracts, homeTransactions }) => {
   const [home, setHome] = useState({});
@@ -76,6 +76,7 @@ const Main = ({ contracts, homeTransactions }) => {
                 </div>
                 <span className="Contract-addr">
                   {homeTransaction.options.address}
+                  <JSONTree data={homeTransaction} />
                 </span>
               </div>
             </Link>
