@@ -1,68 +1,80 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Main.scss";
 import Logo from "../components/Logo";
 import { factory, getAccount } from "../contracts";
-import ReactJson from "react-json-tree-view";
+import JSONTree from "react-json-tree";
 
-const Main = ({ homeTransactions }) => {
-  const [object, setObject] = useState("");
-  const [objects, setObjects] = useState([]);
+const HomeTransaction = ({ homeTransaction, index }) => {
+  return (
+    <Link to={`/${index}`} key={index}>
+      <div className="Contract">
+        <div className="Contract-content">
+          <div className="Contract-contentTitle">{`Contract #${index}`}</div>
+          <span className="Contract-contentObject">
+            {homeTransaction.options.address}
+          </span>
+        </div>
+        <span className="Contract-addr">
+          {homeTransaction.options.address}
+          <JSONTree data={homeTransaction} />
+        </span>
+      </div>
+    </Link>
+  );
+};
+
+const Main = ({ contracts, homeTransactions }) => {
+  const [home, setHome] = useState({});
   const [price, setPrice] = useState(null);
 
   const createContract = async () => {
     const from = await getAccount();
-    factory.methods.create(object, price).send({ from });
+    factory.methods
+      .create(home.address, home.zip, home.city, price)
+      .send({ from });
   };
-
-  useEffect(() => {
-    if (!homeTransactions) {
-      return;
-    }
-    (async () => {
-      const promises = homeTransactions.map(homeTransaction =>
-        homeTransaction.methods.object().call()
-      );
-      const loadedObjects = await Promise.all(promises);
-      setObjects(loadedObjects);
-    })();
-  }, [homeTransactions]);
 
   return (
     <div className="Main">
       <Logo />
-      <h1 className="Contract-title">Contracts</h1>{" "}
+      <h1 className="Main-title">Contracts</h1>{" "}
       <div>
-        <input
-          className="Contract-input"
-          placeholder="Object description"
-          onChange={e => setObject(e.target.value)}
-          value={object}
-        />
-        <input
-          className="Contract-input"
-          placeholder="Price"
-          onChange={e => setPrice(e.target.value)}
-          value={price}
-        />
+        <p>Enter the home details for the contract</p>
+        <div class="Contract-form">
+          <input
+            className="Contract-formInput"
+            placeholder="Address"
+            onChange={e => setHome({ ...home, address: e.target.value })}
+            value={home.address}
+          />
+          <input
+            className="Contract-formInput"
+            placeholder="Zip"
+            onChange={e => setHome({ ...home, zip: e.target.value })}
+            value={home.zip}
+          />
+          <input
+            className="Contract-formInput"
+            placeholder="City"
+            onChange={e => setHome({ ...home, city: e.target.value })}
+            value={home.city}
+          />
+          <input
+            className="Contract-formInput"
+            placeholder="Price"
+            onChange={e => setPrice(e.target.value)}
+            value={price}
+          />
+        </div>
         <button className="Contract-createBtn" onClick={() => createContract()}>
           Create contract
         </button>
       </div>
       <div className="Contracts">
         {homeTransactions &&
-          homeTransactions.map((homeTransaction, i) => (
-            <Link to={`/${i}`} key={i}>
-              <div className="Contract">
-                <div className="Contract-content">
-                  <div className="Contract-contentTitle">Contract {i}</div>
-                  <span className="Contract-contentObject">{objects[i]}</span>
-                </div>
-                <span className="Contract-addr">
-                  {homeTransaction.options.address}
-                </span>
-              </div>
-            </Link>
+          homeTransactions.map((homeTransaction, index) => (
+            <HomeTransaction homeTransaction={homeTransaction} index={index} />
           ))}
       </div>
     </div>

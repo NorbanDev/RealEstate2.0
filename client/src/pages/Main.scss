@@ -4,6 +4,11 @@
 .Main-title {
   font-weight: 700;
 }
+.Contract-form {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+}
 .Contracts {
   color: #282828;
   display: flex;
@@ -16,8 +21,8 @@
   cursor: pointer;
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 16px;
-  margin-left: 8px;
+  margin-bottom: 40px;
+  margin-top: 20px;
   padding: 8px 20px;
   transition: all 0.3s;
 
@@ -25,12 +30,17 @@
     background: #e3928f;
   }
 }
-.Contract-input {
+.Contract-formInput {
   border-radius: 8px;
   border: 0;
   font-size: 13px;
+  margin-top: 8px;
   outline: 0;
   padding: 8px 12px;
+
+  &:first-child {
+    margin-top: 0;
+  }
 }
 .Contract {
   background-color: white;

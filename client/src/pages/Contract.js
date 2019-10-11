@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Switch, Route, Link, useParams } from 'react-router-dom';
 import cx from "classnames";
 import "./Contract.scss";
+import JSONTree from "react-json-tree";
 
 const timeline = [
   { text: "Contract created" },

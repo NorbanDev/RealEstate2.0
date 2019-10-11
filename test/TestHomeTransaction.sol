@@ -7,13 +7,17 @@ import "../contracts/Factory.sol";
 
 contract TestHomeTransaction {
   uint public initialBalance = 1 ether;
-  string constant testObject = "Villa vid havet";
+  string constant testAddress = "Villa vid havet 10";
+  string constant testZip = "123 45";
+  string constant testCity = "Havshult";
 
   function testNormalFlow() public {
     Factory f = new Factory();
-    HomeTransaction t = f.create(testObject, 100 wei);
+    HomeTransaction t = f.create(testAddress, testZip, testCity, 100 wei);
     Assert.equal(f.getInstanceCount(), 1, "Expected factory to contain 1 contract");
-    Assert.equal(t.object(), testObject, "Wrong object");
+    Assert.equal(t.homeAddress(), testAddress, "Wrong address");
+    Assert.equal(t.zip(), testZip, "Wrong zip");
+    Assert.equal(t.city(), testCity, "Wrong city");
     t.sellerSignContract();
     Assert.equal(t.seller(), address(this), "Wrong seller");
     t.buyerSignContractAndPayDeposit.value(10 wei)();

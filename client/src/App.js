@@ -8,7 +8,8 @@ import "./App.css";
 const App = () => {
   const [state, setState] = useState({
     account: null,
-    homeTransactions: null
+    homeTransactions: null,
+    web3error: null
   });
   useEffect(() => {
     const exec = async () => {
@@ -20,18 +21,27 @@ const App = () => {
         console.error("FAIL");
       }
 
-      const account = await getAccount();
-      const homeTransactions = await getHomeTransactions();
-
-      setState({ homeTransactions, account });
+      try {
+        const account = await getAccount();
+        const homeTransactions = await getHomeTransactions();
+        setState({ homeTransactions, account });
+      } catch (e) {
+        setState({ web3error: e });
+      }
     };
 
     exec();
   }, []);
 
-  const { account, homeTransactions } = state;
+  const { account, homeTransactions, web3error } = state;
 
-  return <AppRouter account={account} homeTransactions={homeTransactions} />;
+  return (
+    <AppRouter
+      account={account}
+      homeTransactions={homeTransactions}
+      web3error={web3error}
+    />
+  );
 };
 
 export default App;

@@ -5,9 +5,8 @@ import "./HomeTransaction.sol";
 contract Factory {
   HomeTransaction[] contracts;
 
-  function create(string memory _object, uint _price) public returns(HomeTransaction homeTransaction)  {
-    homeTransaction = new HomeTransaction(_object, _price, msg.sender);
-    
+  function create(string memory _address, string memory _zip, string memory _city, uint _price) public returns(HomeTransaction homeTransaction)  {
+    homeTransaction = new HomeTransaction(_address, _zip, _city, _price, msg.sender);
     contracts.push(homeTransaction);
   }
 
