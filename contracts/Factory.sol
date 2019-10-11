@@ -10,7 +10,7 @@ contract Factory {
   }
 
   function getInstance(uint index) public view returns (address instance) {
-    require(index < _instances.length, "index out of range");
+    require(index < contracts.length, "index out of range");
 
     instance = contracts[index];
   }

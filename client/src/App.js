@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Factory from "./contracts/Factory.json";
 import HomeTransaction from "./contracts/HomeTransaction.json";
 import Web3 from "web3";
 
@@ -7,6 +8,7 @@ import AppRouter from "./AppRouter.js";
 import getWeb3 from "./utils/getWeb3.js";
 
 const App = () => {
+  const [contracts, setContracts] = useState([]);
   const [state, setState] = useState({
     accounts: null,
     contract: null,
@@ -26,12 +28,15 @@ const App = () => {
         console.error("FAIL");
       }
       const accounts = await web3.eth.getAccounts();
-      const contract = new web3.eth.Contract(
-        HomeTransaction.abi,
-        "0x5af4dae68b0b28912da9955b3aa67246946bd9e7"
-      );
-      console.dir(contract);
 
+      const factory = new web3.eth.Contract(
+        Factory.abi,
+        '0x2F312Dd912407C11AAb7488e261afd8fAEeE23EF'
+      );
+      factory.methods.getInstances().call().then((res) => {
+        setContracts(res);
+      });
+      
       setState({ accounts, contract });
     };
 
