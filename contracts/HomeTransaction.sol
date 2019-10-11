@@ -7,7 +7,9 @@ contract HomeTransaction {
     // Set at creation
     address public realtor;
     address public factory;
-    string public object;
+    string public homeAddress;
+    string public zip;
+    string public city;
 
     // Set by realtor
     bool public sellerSigned = false;
@@ -23,10 +25,12 @@ contract HomeTransaction {
     // Set at finalize
     bool public finalized = false;
 
-    constructor(string memory _object, address owner) public {
+    constructor(string memory _address, string memory _zip, string memory _city, address owner) public {
         realtor = owner;
         factory = msg.sender;
-        object = _object;
+        homeAddress = _address;
+        zip = _zip;
+        city = _city;
     }
 
     function sellerSignContract(uint _price) public {

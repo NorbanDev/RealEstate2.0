@@ -6,7 +6,7 @@ import "./Main.scss";
 import Logo from "../components/Logo";
 
 const Main = ({ contracts, homeTransactions }) => {
-  const [object, setObject] = useState("");
+  const [home, setHome] = useState({});
   const [objects, setObjects] = useState("");
   const web3 = new Web3(window.ethereum);
 
@@ -16,7 +16,9 @@ const Main = ({ contracts, homeTransactions }) => {
       Factory.abi,
       "0x2F312Dd912407C11AAb7488e261afd8fAEeE23EF"
     );
-    factory.methods.create(object).send({ from: accounts[0] });
+    factory.methods
+      .create(home.address, home.zip, home.city)
+      .send({ from: accounts[0] });
   };
 
   useEffect(() => {
@@ -35,14 +37,30 @@ const Main = ({ contracts, homeTransactions }) => {
   return (
     <div className="Main">
       <Logo />
-      <h1 className="Contract-title">Contracts</h1>{" "}
+      <h1 className="Main-title">Contracts</h1>{" "}
       <div>
-        <input
-          className="Contract-input"
-          placeholder="Object description"
-          onChange={e => setObject(e.target.value)}
-          value={object}
-        />
+        <p>Enter the home details for the contract</p>
+        <div class="Contract-form">
+          <input
+            className="Contract-formInput"
+            placeholder="Address"
+            onChange={e => setHome({ address: e.target.value })}
+            value={home.address}
+          />
+          <input
+            className="Contract-formInput"
+            placeholder="Zip"
+            onChange={e => setHome({ zip: e.target.value })}
+            value={home.zip}
+          />
+          <input
+            className="Contract-formInput"
+            placeholder="City"
+            onChange={e => setHome({ city: e.target.value })}
+            value={home.city}
+          />
+        </div>
+        <p>{home.address}</p>
         <button className="Contract-createBtn" onClick={() => createContract()}>
           Create contract
         </button>

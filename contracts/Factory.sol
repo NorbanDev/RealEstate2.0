@@ -5,8 +5,8 @@ import "./HomeTransaction.sol";
 contract Factory {
   address[] contracts;
 
-  function create(string memory _object) public {
-    contracts.push(address(new HomeTransaction(_object, msg.sender)));
+  function create(string memory _address, string memory _zip, string memory _city, ) public {
+    contracts.push(address(new HomeTransaction(_address, _zip, _city, msg.sender)));
   }
 
   function getInstance(uint index) public view returns (address instance) {
