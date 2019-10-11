@@ -5,6 +5,7 @@
   font-weight: 700;
 }
 .Contracts {
+  color: #282828;
   display: flex;
 }
 .Contract-createBtn {
@@ -48,10 +49,14 @@
 .Contract-content {
   flex-grow: 1;
 }
-.Contract-content div {
+.Contract-contentTitle {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 2px;
+}
+.Contract-contentObject {
+  color: #81755e;
+  font-size: 14px;
 }
 .Contract-addr {
   color: #333;
