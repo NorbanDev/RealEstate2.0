@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, Link, useParams } from 'react-router-dom';
+import { Switch, Route, Link, useParams } from "react-router-dom";
 import cx from "classnames";
 import "./Contract.scss";
 import JSONTree from "react-json-tree";
+import Buyer from "../components/Buyer";
 
 const timeline = [
   { text: "Contract created" },
@@ -18,17 +19,19 @@ export default function Contract({ homeTransaction }) {
   const [progress, setProgress] = useState(10);
   const [timelineProgress, setTimelineProgress] = useState(1);
 
-  const updateProgress = (index) => {
-    const percent = (index) / timeline.length;
+  const updateProgress = index => {
+    const percent = index / timeline.length;
 
     setProgress(Math.min(percent * 100, 100));
     setTimelineProgress(index);
-  }
+  };
 
   useEffect(() => {
     (async () => {
       if (homeTransaction) {
-        const sellerSigned = await homeTransaction.methods.sellerSigned().call();
+        const sellerSigned = await homeTransaction.methods
+          .sellerSigned()
+          .call();
         const buyerSigned = await homeTransaction.methods.buyerSigned().call();
         const finalized = await homeTransaction.methods.finalized().call();
 
@@ -41,17 +44,21 @@ export default function Contract({ homeTransaction }) {
     <div className="ContractPage">
       <div className="ContractPage-body">
         <h1>Contract</h1>
-        <span className="ContractPage-addr">{homeTransaction && homeTransaction.options.address}</span>
+        <span className="ContractPage-addr">
+          {homeTransaction && homeTransaction.options.address}
+        </span>
 
-        <Route exact path="/:addr" render={() => (
-          <div className="Contract-tabs">
-            <Link to={`/${index}/buyer`}>Buyer</Link>
-            <Link to={`/${index}/seller`}>Seller</Link>
-          </div>
-        )} />
-        <Route path="/:addr/buyer" render={() => (
-          <div>buyer!!!!</div>
-        )} />
+        <Route
+          exact
+          path="/:addr"
+          render={() => (
+            <div className="Contract-tabs">
+              <Link to={`/${index}/buyer`}>Buyer</Link>
+              <Link to={`/${index}/seller`}>Seller</Link>
+            </div>
+          )}
+        />
+        <Route path="/:addr/buyer" render={() => <Buyer />} />
         <div className="Timeline">
           {timeline.map((point, i) => (
             <div

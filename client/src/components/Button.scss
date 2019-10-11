@@ -1,0 +1,14 @@
+.Button {
+  background-color: #e7b558;
+  border-radius: 30px;
+  border: 0;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  transition: all 0.3s;
+
+  &:hover {
+    background: #e3928f;
+  }
+}

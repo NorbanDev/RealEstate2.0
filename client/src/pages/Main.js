@@ -4,6 +4,7 @@ import "./Main.scss";
 import Logo from "../components/Logo";
 import { factory, getAccount } from "../contracts";
 import JSONTree from "react-json-tree";
+import Button from "../components/Button";
 
 const HomeTransaction = ({ homeTransaction, index }) => {
   return (
@@ -67,9 +68,9 @@ const Main = ({ contracts, homeTransactions }) => {
             value={price}
           />
         </div>
-        <button className="Contract-createBtn" onClick={() => createContract()}>
+        <Button className="Contract-createBtn" onClick={() => createContract()}>
           Create contract
-        </button>
+        </Button>
       </div>
       <div className="Contracts">
         {homeTransactions &&
