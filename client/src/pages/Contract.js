@@ -17,6 +17,7 @@ const timeline = [
 export default function Contract({ homeTransaction }) {
   const { index } = useParams();
   const [progress, setProgress] = useState(10);
+  const [contractState, setContractState] = useState({});
   const [timelineProgress, setTimelineProgress] = useState(1);
 
   const updateProgress = index => {
@@ -36,6 +37,7 @@ export default function Contract({ homeTransaction }) {
         const finalized = await homeTransaction.methods.finalized().call();
 
         console.log(sellerSigned, buyerSigned, finalized);
+        setContractState({ sellerSigned, buyerSigned, finalized });
       }
     })();
   }, [homeTransaction]);
@@ -58,7 +60,15 @@ export default function Contract({ homeTransaction }) {
             </div>
           )}
         />
-        <Route path="/:addr/buyer" render={() => <Buyer />} />
+        <Route
+          path="/:addr/buyer"
+          render={() => (
+            <Buyer
+              homeTransaction={homeTransaction}
+              buyerSigned={contractState.buyerSigned}
+            />
+          )}
+        />
         <div className="Timeline">
           {timeline.map((point, i) => (
             <div
