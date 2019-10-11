@@ -17,10 +17,13 @@ const Seller = ({ account, contract }) => {
       <Logo />
       <Link to="/">← Back</Link>
       <h1>Seller view</h1>
+      <p>TODO</p>
+      <p>
+        • Seller being presented with the amount and given the possibility to
+        sign on that amount
+      </p>
       <button
         onClick={async () => {
-          console.dir(account);
-          console.dir(contract);
           const femMillar = 5 * 1000 * 1000;
           try {
             await contract.methods
