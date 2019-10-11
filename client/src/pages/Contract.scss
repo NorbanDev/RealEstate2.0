@@ -1,0 +1,37 @@
+.ContractPage {
+  margin-top: 24px;
+}
+.ContractPage-body {
+  margin: 0 auto;
+  width: 500px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  h1 {
+    margin: 0;
+  }
+}
+.ContractPage-addr {
+  display: block;
+  margin-top: 4px;
+  font-family: 'Roboto Mono';
+  color: #888;
+}
+.ProgressBar-container {
+  margin-top: 16px;
+  position: relative;
+}
+.ProgressBar-background {
+  background-color: #f2f2f2;
+  border-radius: 30px;
+  height: 8px;
+}
+.ProgressBar-progress {
+  background-color: #27C200;
+  border-radius: 30px;
+  height: 8px;
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  width: 100%;
+}

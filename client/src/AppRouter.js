@@ -6,6 +6,7 @@ import Realtor from "./pages/Realtor";
 import Seller from "./pages/Seller";
 import Bank from "./pages/Bank";
 import Coop from "./pages/Coop";
+import Contract from "./pages/Contract";
 
 const AppRouter = ({ account, contracts, homeTransactions }) => (
   <Router>
@@ -17,6 +18,7 @@ const AppRouter = ({ account, contracts, homeTransactions }) => (
           <Main contracts={contracts} homeTransactions={homeTransactions} />
         )}
       />
+      <Route path="/:contractAddr" children={<Contract />} />
       <Route path="/realtor" component={Realtor} />
       <Route
         path="/seller"
