@@ -10,7 +10,7 @@ export default function Seller({ contractState, instance }) {
 
   return (
     <div className="Seller">
-      {(contractState > 0) ? (
+      {(contractState == 0) ? (
         <>
           <button onClick={() => sellerSignContract()}>Sign contract</button>
         </>
