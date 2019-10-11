@@ -20,7 +20,6 @@ contract TestHomeTransaction {
       100 wei,
       5 wei,
       address(this),
-      address(this),
       address(this));
     Assert.equal(f.getInstanceCount(), 1, "Expected factory to contain 1 contract");
     Assert.equal(t.homeAddress(), testAddress, "Wrong address");

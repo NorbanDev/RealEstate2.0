@@ -9,18 +9,17 @@ contract Factory {
         string memory _address,
         string memory _zip,
         string memory _city,
-        uint _price,
         uint _realtorFee,
-        address payable _realtor,
+        uint _price,
         address payable _seller,
         address payable _buyer) public returns(HomeTransaction homeTransaction)  {
     homeTransaction = new HomeTransaction(
       _address,
       _zip,
       _city,
-      _price,
       _realtorFee,
-      _realtor,
+      _price,
+      msg.sender,
       _seller,
       _buyer);
     contracts.push(homeTransaction);
