@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Factory from "./contracts/Factory.json";
-import HomeTransaction from "./contracts/HomeTransaction.json";
 import Web3 from "web3";
 
-import "./App.css";
 import AppRouter from "./AppRouter.js";
+
+import "./App.css";
 
 const App = () => {
   const [contracts, setContracts] = useState([]);
@@ -29,11 +29,14 @@ const App = () => {
       const accounts = await web3.eth.getAccounts();
       const factory = new web3.eth.Contract(
         Factory.abi,
-        '0x2F312Dd912407C11AAb7488e261afd8fAEeE23EF'
+        "0x2F312Dd912407C11AAb7488e261afd8fAEeE23EF"
       );
-      factory.methods.getInstances().call().then((res) => {
-        setContracts(res);
-      });
+      factory.methods
+        .getInstances()
+        .call()
+        .then(res => {
+          setContracts(res);
+        });
 
       setState({ accounts, contract });
     };
