@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Buyer.scss";
 import Button from "./Button";
 import { getAccount } from "../contracts";
-import Web3 from "web3";
 
-const Buyer = ({ homeTransaction, buyerSigned }) => {
+const Buyer = ({ homeTransaction, contractState }) => {
   const [pricing, setPricing] = useState({});
   useEffect(() => {
     (async () => {
@@ -16,17 +15,15 @@ const Buyer = ({ homeTransaction, buyerSigned }) => {
     })();
   }, [homeTransaction]);
   const sign = async () => {
-    console.dir(homeTransaction);
     const from = await getAccount();
     homeTransaction.methods
       .buyerSignContractAndPayDeposit()
       .send({ from, value: pricing.deposit });
   };
-  console.dir(buyerSigned);
   return (
     <div className="Buyer">
-      {buyerSigned == null && <p>Loading...</p>}
-      {buyerSigned != null && !buyerSigned && (
+      {contractState == null && <p>Loading...</p>}
+      {contractState != null && contractState <= 1 && (
         <>
           <p>Sign contract and pay deposit</p>
           <div>
@@ -36,7 +33,7 @@ const Buyer = ({ homeTransaction, buyerSigned }) => {
           </div>
         </>
       )}
-      {buyerSigned != null && buyerSigned && <p>Deposit is payed</p>}
+      {contractState != null && contractState > 1 && <p>Deposit is payed</p>}
       <p>price: {pricing.price || "-"}</p>
       <p>deposit: {pricing.deposit || "-"}</p>
     </div>

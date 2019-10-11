@@ -17,8 +17,8 @@ contract TestHomeTransaction {
       testAddress,
       testZip,
       testCity,
-      100 wei,
       5 wei,
+      100 wei,
       address(this),
       address(this));
     Assert.equal(f.getInstanceCount(), 1, "Expected factory to contain 1 contract");
