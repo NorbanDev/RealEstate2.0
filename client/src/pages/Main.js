@@ -59,7 +59,7 @@ const Main = ({ homeTransactions }) => {
                   <span className="Contract-contentObject">{objects[i]}</span>
                 </div>
                 <span className="Contract-addr">
-                  <ReactJson src={homeTransaction} />
+                  {homeTransaction.options.address}
                 </span>
               </div>
             </Link>

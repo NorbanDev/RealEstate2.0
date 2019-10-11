@@ -22,7 +22,7 @@ const AppRouter = ({ account, homeTransactions }) => (
           match: {
             params: { index }
           }
-        }) => <Contract homeTransaction={homeTransactions[index]} />}
+        }) => <Contract homeTransaction={homeTransactions && homeTransactions[index]} />}
       />
       <Route path="/realtor" component={Realtor} />
       <Route path="/seller" render={() => <Seller account={account} />} />

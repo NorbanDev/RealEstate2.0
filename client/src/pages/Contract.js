@@ -20,7 +20,7 @@ export default function Contract({ homeTransaction }) {
     <div className="ContractPage">
       <div className="ContractPage-body">
         <h1>Contract</h1>
-        <span className="ContractPage-addr">{homeTransaction}</span>
+        <span className="ContractPage-addr">{homeTransaction && homeTransaction.options.address}</span>
         <div className="Timeline">
           {timeline.map((point, i) => (
             <div
