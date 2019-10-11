@@ -8,7 +8,7 @@
   },
   "scripts": {
     "compile": "truffle compile",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "truffle test"
   },
   "dependencies": {
     "truffle": "^5.0.40"

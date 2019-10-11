@@ -3,6 +3,7 @@ pragma solidity >=0.4.25 <0.6.0;
 contract HomeTransaction {
     // Constants
     uint constant timeBetweenDepositAndFinalization = 5 minutes;
+    uint constant depositPercentage = 10;
 
     // Set at creation
     address public realtor;
@@ -23,19 +24,19 @@ contract HomeTransaction {
     // Set at finalize
     bool public finalized = false;
 
-    constructor(string memory _object, address owner) public {
-        realtor = owner;
+    constructor(string memory _object, uint _price, address _seller) public {
+        realtor = _seller;
         factory = msg.sender;
         object = _object;
+        price = _price;
     }
 
-    function sellerSignContract(uint _price) public {
+    function sellerSignContract() public {
         require(!sellerSigned, "Transaction already set up");
 
         assert(realtor != address(0));
         assert(!sellerSigned);
         assert(seller == address(0));
-        assert(price == 0);
         assert(!buyerSigned);
         assert(buyer == address(0));
         assert(deposit == 0);
@@ -44,7 +45,6 @@ contract HomeTransaction {
         sellerSigned = true;
 
         seller = msg.sender;
-        price = _price;
     }
 
     function buyerSignContractAndPayDeposit() public payable {
@@ -52,7 +52,7 @@ contract HomeTransaction {
         require(!buyerSigned, "Cannot sign already signed transaction");
 
         require(buyer == address(0), "Contract already has a buyer");
-        require(msg.value >= price/10 && msg.value <= price, "Buyer needs to deposit between 10% and 100% to sign contract");
+        require(msg.value >= price*depositPercentage/100 && msg.value <= price, "Buyer needs to deposit between 10% and 100% to sign contract");
 
         assert(realtor != address(0));
         assert(sellerSigned);
@@ -94,12 +94,12 @@ contract HomeTransaction {
 
         require(buyer == msg.sender || finalizeDeadline <= now, "Only buyer can withdraw before transaction deadline");
 
-        //assert(realtor != address(0));
-        //assert(sellerSigned);
-        //assert(seller != address(0));
-        //assert(buyerSigned);
-        //assert(buyer != address(0));
-        //assert(finalizeDeadline != 0);
+        assert(realtor != address(0));
+        assert(sellerSigned);
+        assert(seller != address(0));
+        assert(buyerSigned);
+        assert(buyer != address(0));
+        assert(finalizeDeadline != 0);
 
         finalized = true;
 

@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Web3 from "web3";
-import Factory from "../contracts/Factory.json";
-import "./Main.scss";
+import "./Main.css";
 import Logo from "../components/Logo";
+import { factory, web3 } from "../contracts";
 
 const Main = ({ contracts, homeTransactions }) => {
   const [object, setObject] = useState("");
-  const [objects, setObjects] = useState("");
-  const web3 = new Web3(window.ethereum);
+  const [objects, setObjects] = useState([]);
+  const [price, setPrice] = useState(0);
 
   const createContract = async () => {
     const accounts = await web3.eth.getAccounts();
-    const factory = new web3.eth.Contract(
-      Factory.abi,
-      "0x2F312Dd912407C11AAb7488e261afd8fAEeE23EF"
-    );
-    factory.methods.create(object).send({ from: accounts[0] });
+    factory.methods.create(object, price).send({ from: accounts[0] });
   };
 
   useEffect(() => {
@@ -42,6 +37,12 @@ const Main = ({ contracts, homeTransactions }) => {
           placeholder="Object description"
           onChange={e => setObject(e.target.value)}
           value={object}
+        />
+        <input
+          className="Contract-input"
+          placeholder="Price"
+          onChange={e => setPrice(e.target.value)}
+          value={price}
         />
         <button className="Contract-createBtn" onClick={() => createContract()}>
           Create contract
