@@ -7,3 +7,5 @@ export const factory = new web3.eth.Contract(
   Factory.abi,
   "0x0ec9f307A694a90dC16Bc3601A618063696158F2"
 );
+
+export const getAccount = async () => (await web3.eth.getAccounts())[0];
