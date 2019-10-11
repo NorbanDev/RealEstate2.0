@@ -8,10 +8,9 @@ import Buyer from "../components/Buyer";
 
 const timeline = [
   { text: "Contract created" },
-  { text: "Buyer approve contract" },
-  { text: "Bank sign and deposit" },
-  { text: "(Optional) Buy opt-out" },
-  { text: "(Optional) After 5 min, everyone can opt-out" },
+  { text: "Seller sign contract" },
+  { text: "Buyer sign and deposit to contract" },
+  { text: "Realtor sign contract" },
   { text: "Buyer finalize transaction" }
 ];
 
@@ -36,6 +35,10 @@ export default function Contract({ homeTransaction }) {
       }
     })();
   }, [homeTransaction]);
+
+  useEffect(() => {
+    updateProgress(parseInt(contractState, 10) + 1);
+  }, [contractState]);
 
   return (
     <div className="ContractPage">
@@ -77,12 +80,20 @@ export default function Contract({ homeTransaction }) {
             <div
               className={cx("Timeline-point", {
                 done: timelineProgress > i,
-                "in-progress": timelineProgress === i
+                "in-progress": timelineProgress === i,
+                reject: contractState === 5,
               })}
             >
               {i + 1}. {point.text}
             </div>
           ))}
+          {contractState === 5 && (
+            <div
+              className={cx("Timeline-point failed")}
+            >
+              Contract rejected.
+            </div>
+          )}
         </div>
         <div className="ProgressBar-container">
           <div className="ProgressBar-background"></div>
