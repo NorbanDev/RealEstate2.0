@@ -13,4 +13,4 @@ const Buyer = () => (
   </div>
 );
 
-export default Bank;
+export default Buyer;
