@@ -20,11 +20,11 @@ const Main = ({ contracts, homeTransactions }) => {
       return;
     }
     (async () => {
-      const promises = homeTransactions.map(homeTransaction =>
-        homeTransaction.methods.object().call()
+      setObjects(
+        await Promise.all(
+          homeTransactions.map(homeTransaction => "TODO: replace me!")
+        )
       );
-      const loadedObjects = await Promise.all(promises);
-      setObjects(loadedObjects);
     })();
   }, [homeTransactions]);
 
