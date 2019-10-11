@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Web3 from "web3";
 import Factory from "../contracts/Factory.json";
 import "./Main.scss";
 import Logo from "../components/Logo";
 
-const Main = ({ contracts }) => {
+const Main = ({ contracts, homeTransactions }) => {
   const [object, setObject] = useState("");
+  const [objects, setObjects] = useState("");
   const web3 = new Web3(window.ethereum);
 
   const createContract = async () => {
@@ -17,6 +18,22 @@ const Main = ({ contracts }) => {
     );
     factory.methods.create(object).send({ from: accounts[0] });
   };
+
+  useEffect(() => {
+    if (!homeTransactions) {
+      return;
+    }
+    (async () => {
+      const promises = homeTransactions.map(homeTransaction =>
+        homeTransaction.methods.object().call()
+      );
+      const loadedObjects = await Promise.all(promises);
+      setObjects(loadedObjects);
+      console.dir(loadedObjects);
+    })();
+  }, [homeTransactions]);
+
+  console.dir(homeTransactions);
 
   return (
     <div className="Main">
@@ -39,8 +56,8 @@ const Main = ({ contracts }) => {
             <Link to={contract} key={contract}>
               <div className="Contract">
                 <div className="Contract-content">
-                  <div>Contract {i}</div>
-                  <span>Contract description</span>
+                  <div className="Contract-contentTitle">Contract {i}</div>
+                  <span className="Contract-contentObject">{objects[i]}</span>
                 </div>
                 <span className="Contract-addr">{contract}</span>
               </div>

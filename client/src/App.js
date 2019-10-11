@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Factory from "./contracts/Factory.json";
+import HomeTransaction from "./contracts/HomeTransaction.json";
 import Web3 from "web3";
 
 import AppRouter from "./AppRouter.js";
@@ -10,10 +11,7 @@ const App = () => {
   const [state, setState] = useState({
     accounts: null,
     contracts: null,
-    buyer: null,
-    price: null,
-    deposit: null,
-    object: null
+    homeTransactions: null
   });
   useEffect(() => {
     const exec = async () => {
@@ -31,16 +29,25 @@ const App = () => {
         "0x2F312Dd912407C11AAb7488e261afd8fAEeE23EF"
       );
       const contracts = await factory.methods.getInstances().call();
+      const homeTransactions = contracts.map(
+        contract => new web3.eth.Contract(HomeTransaction.abi, contract)
+      );
 
-      setState({ factory, accounts, contracts });
+      setState({ homeTransactions, accounts, contracts });
     };
 
     exec();
   }, []);
 
-  const { accounts, contracts } = state;
+  const { accounts, contracts, homeTransactions } = state;
 
-  return <AppRouter account={accounts && accounts[0]} contracts={contracts} />;
+  return (
+    <AppRouter
+      account={accounts && accounts[0]}
+      contracts={contracts}
+      homeTransactions={homeTransactions}
+    />
+  );
 };
 
 export default App;
