@@ -3,11 +3,8 @@ import { Switch, Route, Link, useParams } from "react-router-dom";
 import cx from "classnames";
 import "./Contract.scss";
 import JSONTree from "react-json-tree";
-<<<<<<< HEAD
 import Seller from '../components/Seller';
-=======
 import Buyer from "../components/Buyer";
->>>>>>> 511816ae84afd497b44f9c9af5696a7ae46797df
 
 const timeline = [
   { text: "Contract created" },
