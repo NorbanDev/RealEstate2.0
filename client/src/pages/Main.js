@@ -35,8 +35,8 @@ const Main = ({ contracts, homeTransactions }) => {
         form.address,
         form.zip,
         form.city,
-        form.price,
         form.realtorFee,
+        form.price,
         form.seller,
         form.buyer
       )
@@ -70,15 +70,15 @@ const Main = ({ contracts, homeTransactions }) => {
           />
           <input
             className="Contract-formInput"
-            placeholder="Price"
-            onChange={e => setForm({ ...form, price: e.target.value })}
-            value={form.price}
-          />
-          <input
-            className="Contract-formInput"
             placeholder="Realtor fee"
             onChange={e => setForm({ ...form, realtorFee: e.target.value })}
             value={form.realtorFee}
+          />
+          <input
+            className="Contract-formInput"
+            placeholder="Price"
+            onChange={e => setForm({ ...form, price: e.target.value })}
+            value={form.price}
           />
           <input
             className="Contract-formInput"
