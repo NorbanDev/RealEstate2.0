@@ -59,7 +59,7 @@ contract HomeTransaction {
     function sellerSignContract() public payable {
         require(seller == msg.sender, "Only seller can sign contract");
 
-        require(contractState == ContractState.WaitingSellerSignature, "Seller cannot sign already signed contract");
+        require(contractState == ContractState.WaitingSellerSignature, "Wrong contract state");
 
         contractState = ContractState.WaitingBuyerSignature;
     }
@@ -67,7 +67,7 @@ contract HomeTransaction {
     function buyerSignContractAndPayDeposit() public payable {
         require(buyer == msg.sender, "Only buyer can sign contract");
 
-        require(contractState == ContractState.WaitingBuyerSignature, "Buyer cannot sign contract");
+        require(contractState == ContractState.WaitingBuyerSignature, "Wrong contract state");
     
         require(msg.value >= price*depositPercentage/100 && msg.value <= price, "Buyer needs to deposit between 10% and 100% to sign contract");
 
@@ -80,7 +80,7 @@ contract HomeTransaction {
     function realtorReviewedClosingConditions(bool accepted) public {
         require(realtor == msg.sender, "Only realtor can review closing conditions");
 
-        require(contractState == ContractState.WaitingRealtorReview, "Cannot review closing conditions before signatures");
+        require(contractState == ContractState.WaitingRealtorReview, "Wrong contract state");
         
         if (accepted) {
             closingConditionsReview = ClosingConditionsReview.Accepted;
@@ -96,7 +96,7 @@ contract HomeTransaction {
     function buyerFinalizeTransaction() public payable {
         require(buyer == msg.sender, "Only buyer can finalize transaction");
 
-        require(contractState == ContractState.WaitingFinalization, "Buyer cannot finalize non-reviewed contract");
+        require(contractState == ContractState.WaitingFinalization, "Wrong contract state");
 
         require(msg.value + deposit == price, "Buyer needs to pay the rest of the cost to finalize transaction");
 
@@ -109,7 +109,7 @@ contract HomeTransaction {
     function anyWithdrawFromTransaction() public {
         require(buyer == msg.sender || finalizeDeadline <= now, "Only buyer can withdraw before transaction deadline");
 
-        require(contractState == ContractState.WaitingFinalization, "Buyer cannot withdraw from non-signed contract");
+        require(contractState == ContractState.WaitingFinalization, "Wrong contract state");
 
         contractState = ContractState.Rejected;
 
