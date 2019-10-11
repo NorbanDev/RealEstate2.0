@@ -3,6 +3,7 @@ import { Switch, Route, Link, useParams } from 'react-router-dom';
 import cx from "classnames";
 import "./Contract.scss";
 import JSONTree from "react-json-tree";
+import Seller from '../components/Seller';
 
 const timeline = [
   { text: "Contract created" },
@@ -17,6 +18,9 @@ export default function Contract({ homeTransaction }) {
   const { index } = useParams();
   const [progress, setProgress] = useState(10);
   const [timelineProgress, setTimelineProgress] = useState(1);
+  const [sellerSigned, setSellerSigned] = useState(false);
+  const [buyerSigned, setBuyerSigned] = useState(false);
+  const [finalized, setFinazlied] = useState(false);
 
   const updateProgress = (index) => {
     const percent = (index) / timeline.length;
@@ -32,7 +36,9 @@ export default function Contract({ homeTransaction }) {
         const buyerSigned = await homeTransaction.methods.buyerSigned().call();
         const finalized = await homeTransaction.methods.finalized().call();
 
-        console.log(sellerSigned, buyerSigned, finalized);
+        setSellerSigned(sellerSigned);
+        setBuyerSigned(buyerSigned);
+        setFinazlied(finalized);
       }
     })();
   }, [homeTransaction]);
@@ -51,6 +57,12 @@ export default function Contract({ homeTransaction }) {
         )} />
         <Route path="/:addr/buyer" render={() => (
           <div>buyer!!!!</div>
+        )} />
+        <Route path="/:addr/seller" render={() => (
+          <Seller
+            sellerSigned={sellerSigned}
+            instance={homeTransaction}
+          />
         )} />
         <div className="Timeline">
           {timeline.map((point, i) => (
