@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import cx from "classnames";
 import "./Contract.scss";
 
@@ -12,18 +11,16 @@ const timeline = [
   { text: "Buyer finalize transaction" }
 ];
 
-export default function Contract({ contracts }) {
-  const { index } = useParams();
-  const [progress, setProgress] = useState(50);
-  const contract = contracts[index];
+export default function Contract({ homeTransaction }) {
+  const [progress /*, setProgress*/] = useState(50);
   // const homeTransaction = homeTransactions[index];
-  const [timelineProgress, setTimelineProgress] = useState(1);
+  const [timelineProgress /*, setTimelineProgress*/] = useState(1);
 
   return (
     <div className="ContractPage">
       <div className="ContractPage-body">
         <h1>Contract</h1>
-        <span className="ContractPage-addr">{contract}</span>
+        <span className="ContractPage-addr">{homeTransaction}</span>
         <div className="Timeline">
           {timeline.map((point, i) => (
             <div

@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Web3 from "web3";
-import Factory from "../contracts/Factory.json";
 import "./Main.scss";
 import Logo from "../components/Logo";
+import { factory, getAccount } from "../contracts";
+import ReactJson from "react-json-tree-view";
 
 const Main = ({ contracts, homeTransactions }) => {
   const [home, setHome] = useState({});
   const [objects, setObjects] = useState("");
-  const web3 = new Web3(window.ethereum);
+  const [price, setPrice] = useState(0);
 
   const createContract = async () => {
-    const accounts = await web3.eth.getAccounts();
-    const factory = new web3.eth.Contract(
-      Factory.abi,
-      "0x2F312Dd912407C11AAb7488e261afd8fAEeE23EF"
-    );
-    factory.methods
-      .create(home.address, home.zip, home.city)
-      .send({ from: accounts[0] });
+    const from = await getAccount();
+    factory.methods.create(home.address, home.zip, home.city).send({ from });
   };
 
   useEffect(() => {
@@ -59,6 +53,12 @@ const Main = ({ contracts, homeTransactions }) => {
             onChange={e => setHome({ city: e.target.value })}
             value={home.city}
           />
+          <input
+            className="Contract-formInput"
+            placeholder="Price"
+            onChange={e => setPrice(e.target.value)}
+            value={price}
+          />
         </div>
         <p>{home.address}</p>
         <button className="Contract-createBtn" onClick={() => createContract()}>
@@ -66,15 +66,17 @@ const Main = ({ contracts, homeTransactions }) => {
         </button>
       </div>
       <div className="Contracts">
-        {contracts &&
-          contracts.map((contract, i) => (
+        {homeTransactions &&
+          homeTransactions.map((homeTransaction, i) => (
             <Link to={`/${i}`} key={i}>
               <div className="Contract">
                 <div className="Contract-content">
                   <div className="Contract-contentTitle">Contract {i}</div>
                   <span className="Contract-contentObject">{objects[i]}</span>
                 </div>
-                <span className="Contract-addr">{contract}</span>
+                <span className="Contract-addr">
+                  <ReactJson src={homeTransaction} />
+                </span>
               </div>
             </Link>
           ))}
