@@ -77,7 +77,10 @@ export default function Contract({ homeTransaction }) {
         <Route
           path="/:addr/coop"
           render={() => (
-            <Coop contractState={contractState} instance={homeTransaction} />
+            <Coop
+              contractState={contractState}
+              homeTransaction={homeTransaction}
+            />
           )}
         />
         <div className="Timeline">
@@ -86,16 +89,14 @@ export default function Contract({ homeTransaction }) {
               className={cx("Timeline-point", {
                 done: timelineProgress > i,
                 "in-progress": timelineProgress === i,
-                reject: contractState === 5,
+                reject: contractState === 5
               })}
             >
               {i + 1}. {point.text}
             </div>
           ))}
           {contractState === 5 && (
-            <div
-              className={cx("Timeline-point failed")}
-            >
+            <div className={cx("Timeline-point failed")}>
               Contract rejected.
             </div>
           )}

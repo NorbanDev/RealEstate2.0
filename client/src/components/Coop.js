@@ -4,12 +4,12 @@ import Button from "./Button";
 import { getAccount } from "../contracts";
 
 const Coop = ({ homeTransaction, contractState }) => {
-  console.dir(contractState);
+  console.dir(homeTransaction);
   const confirm = async approved => {
     const from = await getAccount();
     homeTransaction.methods
-      .realtorReviewedClosingConditions()
-      .send({ from, value: approved });
+      .realtorReviewedClosingConditions(approved)
+      .send({ from });
   };
   return (
     <div className="Coop">
