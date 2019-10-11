@@ -17,7 +17,7 @@
   border: 0;
   padding: 8px 20px;
   border-radius: 30px;
-  font-weight: bold;
+  font-weight: 600;
   margin-left: 8px;
   margin-bottom: 16px;
   cursor: pointer;
@@ -39,6 +39,14 @@
   background-color: white;
   border-radius: 8px;
   word-break: break-all;
+  transition: all .3s;
+  &:hover {
+    background-color: #222;
+    color: white!important;
+    .Contract-addr {
+      color: white;
+    }
+  }
 }
 .Contract-content {
   flex-grow: 1;

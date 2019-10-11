@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Web3 from "web3";
 import Factory from "../contracts/Factory.json";
-import "./Main.css";
+import "./Main.scss";
 import Logo from "../components/Logo";
 // import { Button } from "semantic-ui-react";
 
