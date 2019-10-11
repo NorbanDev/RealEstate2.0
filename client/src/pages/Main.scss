@@ -15,20 +15,8 @@
   flex-wrap: wrap;
 }
 .Contract-createBtn {
-  background-color: #e7b558;
-  border-radius: 30px;
-  border: 0;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
   margin-bottom: 40px;
   margin-top: 20px;
-  padding: 8px 20px;
-  transition: all 0.3s;
-
-  &:hover {
-    background: #e3928f;
-  }
 }
 .Contract-formInput {
   border-radius: 8px;
