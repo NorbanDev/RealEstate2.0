@@ -2,9 +2,11 @@
 
 This is a decentralized app prototype to sell and buy homes on the Ethereum platform. It mainly consists of the Solidity contracts and a React frontend.
 
+```
 📦root
  ┣ client    - React UI frontend
  ┗ contracts - Solidity contracts
+```
 
 To compile the contracts
 
